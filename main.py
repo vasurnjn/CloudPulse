@@ -1,0 +1,2 @@
+from dashboard.console_dashboard import display_metrics
+display_metrics()

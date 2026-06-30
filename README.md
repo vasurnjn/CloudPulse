@@ -1,43 +1,39 @@
 # CloudPulse
 
-CloudPulse is a cloud infrastructure monitoring and log analytics platform built using Python.
+CloudPulse is a cloud infrastructure monitoring and log analytics platform built with Python. It continuously monitors system resources, stores historical metrics in SQLite, and serves as the foundation for a complete cloud monitoring solution.
 
-## Goals
+## Features
 
-- Collect system metrics
-- Parse application logs
-- Store historical data
-- Visualize trends
-- Generate alerts
-- Deploy on AWS
+- Collects CPU, memory, disk, and network metrics
+- Stores historical metrics in SQLite
+- Live console dashboard with automatic refresh
+- Continuous monitoring every 10 seconds
+- Modular architecture for easy extension
 
----
+## Tech Stack
 
-## Current Features (v0.1)
+- Python
+- SQLite
+- psutil
+- Git & GitHub
 
-- Collect CPU usage
-- Collect memory usage
-- Collect disk usage
-- Collect network statistics
-- Collect hostname
-- Collect timestamp
-- Display metrics through a console dashboard
+## Running the Project
 
----
+```bash
+pip install -r requirements.txt
+python main.py
+```
 
-## Planned Features
+## Roadmap
 
-- SQLite database integration
-- Historical metrics analysis
+- Historical analytics
 - Streamlit dashboard
-- Log parsing
+- Log parser
 - Alert engine
-- Docker support
-- AWS EC2 deployment
+- Docker
+- AWS deployment
 - Multi-server monitoring
 
----
+## Status
 
-## Project Status
-
-! Under Development !
+Active Development (v0.3)

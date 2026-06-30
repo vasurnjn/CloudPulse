@@ -1,6 +1,5 @@
 from collector.metrics_collector import collect_system_metrics 
-def display_metrics():
-    metrics=collect_system_metrics()
+def display_metrics(metrics):
     network=metrics['network_usage']
     memory=metrics['memory_usage']
     print("========================================")

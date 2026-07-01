@@ -1,39 +1,61 @@
 # CloudPulse
 
-CloudPulse is a cloud infrastructure monitoring and log analytics platform built with Python. It continuously monitors system resources, stores historical metrics in SQLite, and serves as the foundation for a complete cloud monitoring solution.
+CloudPulse is a cloud infrastructure monitoring and log analytics platform built with Python. It continuously monitors system resources, stores historical metrics, and provides real-time as well as historical system analytics.
 
 ## Features
 
-- Collects CPU, memory, disk, and network metrics
-- Stores historical metrics in SQLite
-- Live console dashboard with automatic refresh
+### System Monitoring
+- Real-time CPU usage monitoring
+- Real-time memory usage monitoring
+- Real-time disk usage monitoring
+- Network statistics collection
+- Hostname and timestamp tracking
+
+### Historical Analytics
+- Average CPU, Memory, and Disk usage
+- Maximum CPU, Memory, and Disk usage
+- Minimum CPU, Memory, and Disk usage
+- Total records collected
+- Latest metrics retrieval
+
+### Database
+- Automatic SQLite database creation
+- Automatic table initialization
+- Persistent storage of collected metrics
+
+### Monitoring Agent
 - Continuous monitoring every 10 seconds
-- Modular architecture for easy extension
+- Live console dashboard
+- Automatic terminal refresh
 
-## Tech Stack
+## Technologies Used
 
-- Python
+- Python 3
 - SQLite
 - psutil
-- Git & GitHub
+- Git
+- GitHub
 
-## Running the Project
+## Current Architecture
 
-```bash
-pip install -r requirements.txt
-python main.py
-```
+- Metrics Collector
+- SQLite Database Layer
+- Analytics Layer
+- Console Dashboard
+- Utility Module
 
-## Roadmap
+## Upcoming Features
 
-- Historical analytics
-- Streamlit dashboard
-- Log parser
+- Application log collection
+- Log parsing
 - Alert engine
-- Docker
+- Streamlit dashboard
+- Docker support
 - AWS deployment
 - Multi-server monitoring
 
-## Status
+## Project Status
 
-Active Development (v0.3)
+! Active Development !
+
+Current Version: **v0.4**

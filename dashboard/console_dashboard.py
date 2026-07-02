@@ -1,4 +1,4 @@
-def display_metrics(metrics,average_cpu,max_cpu,total_records,min_cpu,average_memory,max_memory,min_memory,average_disk,max_disk,min_disk,logs):
+def display_metrics(metrics,average_cpu,max_cpu,total_records,min_cpu,average_memory,max_memory,min_memory,average_disk,max_disk,min_disk,latest_logs):
     network=metrics['network_usage']
     memory=metrics['memory_usage']
     print("========================================")
@@ -41,10 +41,12 @@ def display_metrics(metrics,average_cpu,max_cpu,total_records,min_cpu,average_me
     # print(f"Last Updated: {metrics['timestamp']}")
     print("========================================")
     print()
-    print("Logs")
-    print("----")
-    if not logs:
-        print("No new log entries!")
+    print("Latest Logs")
+    print("-----------")
+    if not latest_logs:
+        print("No logs stored.")
     else:
-        for log in logs:
-            print(log)
+        for log in latest_logs:
+            print(f"[{log['level']}] {log['timestamp']}")
+            print(f"  {log['message']}")
+            print()

@@ -19,6 +19,13 @@ def init_database():
                 filename TEXT UNIQUE, 
                 offset INTEGER DEFAULT 0)
                 """)
+    cur.execute("""
+                CREATE TABLE IF NOT EXISTS application_logs
+                (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp TEXT,
+                level TEXT,
+                message TEXT)
+                """)
     con.commit()
     con.close()
 def save_metrics(metrics):
@@ -52,5 +59,25 @@ def save_log_offset(filename,offset):
     con=sqlite3.connect("database/cloudpulse.db")
     cur=con.cursor()
     cur.execute("INSERT OR REPLACE INTO log_offsets (filename, offset) VALUES (?, ?)", (filename, offset))
+    con.commit()
+    con.close()
+
+def save_logs(parsed_logs):
+    if not parsed_logs:
+        return
+    con=sqlite3.connect("database/cloudpulse.db")
+    cur=con.cursor()
+    data=[]
+    for log in parsed_logs:
+        data.append(
+            (
+                log["timestamp"],log["level"],log["message"]
+            )
+        )
+    cur.executemany("""
+                    INSERT INTO application_logs(timestamp,level,message)
+                    VALUES(?,?,?)
+                    """,data
+                    )
     con.commit()
     con.close()

@@ -6,6 +6,13 @@ def run_query(query, params=()):
     res=cur.fetchone()
     con.close()
     return res
+def run_query_all(query, params=()):
+    con = sqlite3.connect("database/cloudpulse.db")
+    cur = con.cursor()
+    cur.execute(query, params)
+    res = cur.fetchall()
+    con.close()
+    return res
 
 def get_average_cpu():
     return run_query("SELECT AVG(cpu_usage) FROM system_metrics")[0]
@@ -38,15 +45,46 @@ def get_total_records():
     return run_query("SELECT COUNT(*) FROM system_metrics")[0]
 
 def get_latest_metrics():
-    row = run_query("SELECT * FROM system_metrics ORDER BY id DESC LIMIT 1")
-    latest = {
-    "id": row[0],
-    "timestamp": row[1],
-    "hostname": row[2],
-    "cpu_usage": row[3],
-    "memory_usage": row[4],
-    "disk_usage": row[5],
-    "bytes_sent": row[6],
-    "bytes_recv": row[7]
-}
-    return latest
+    row = run_query(
+        """
+        SELECT timestamp,
+        cpu_usage,
+        memory_usage,
+        disk_usage
+        FROM system_metrics
+        ORDER BY id DESC
+        LIMIT 1
+        """
+    )
+    if row is None:
+        return None
+    return {
+        "timestamp": row[0],
+        "cpu_usage": row[1],
+        "memory_usage": row[2],
+        "disk_usage": row[3]
+    }
+
+def get_metrics_history(limit):
+    rows = run_query_all(
+        """
+        SELECT timestamp,
+        cpu_usage,
+        memory_usage,
+        disk_usage
+        FROM system_metrics
+        ORDER BY id DESC
+        LIMIT ?
+        """,
+        (limit,)
+    )
+    history = []
+    for row in rows:
+        history.append({
+            "timestamp": row[0],
+            "cpu_usage": row[1],
+            "memory_usage": row[2],
+            "disk_usage": row[3]
+        })
+    history.reverse()
+    return history

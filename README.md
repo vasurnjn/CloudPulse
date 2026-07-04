@@ -1,27 +1,33 @@
 # CloudPulse
 
-CloudPulse is a Python-based cloud infrastructure monitoring and log analytics platform. It continuously monitors system resources, collects application logs, parses them into structured data, stores everything in SQLite, and provides real-time monitoring through a terminal dashboard.
+CloudPulse is a Python-based cloud infrastructure monitoring and log analytics platform. It continuously monitors system resources, collects and parses application logs, stores historical data in SQLite, detects system alerts, and displays real-time information through a terminal dashboard.
 
 ## Features
 
 ### System Monitoring
-- Real-time CPU usage monitoring
-- Memory usage monitoring
-- Disk usage monitoring
-- Network usage monitoring
+- Real-time CPU monitoring
+- Memory monitoring
+- Disk monitoring
+- Network statistics
 - Hostname and timestamp collection
 
 ### Historical Analytics
-- Average CPU, Memory, and Disk usage
-- Maximum CPU, Memory, and Disk usage
-- Minimum CPU, Memory, and Disk usage
-- Total metrics collected
+- Average CPU usage
+- Maximum CPU usage
+- Minimum CPU usage
+- Average Memory usage
+- Maximum Memory usage
+- Minimum Memory usage
+- Average Disk usage
+- Maximum Disk usage
+- Minimum Disk usage
+- Total records collected
 
 ### Log Collection
 - Incremental log collection using file offsets
 - Persistent offset tracking
-- Resume log collection after restart
 - Reads only newly appended log entries
+- Automatic resume after restart
 
 ### Log Parsing
 - Parses raw log lines into structured dictionaries
@@ -29,43 +35,33 @@ CloudPulse is a Python-based cloud infrastructure monitoring and log analytics p
 - Extracts log level
 - Extracts log message
 
+### Alert Engine
+- CPU usage threshold alerts
+- Memory usage threshold alerts
+- Disk usage threshold alerts
+- ERROR log detection
+- Alert history stored in SQLite
+
 ### Database
-- SQLite storage for system metrics
-- SQLite storage for parsed application logs
-- SQLite storage for collector offsets
+- System metrics
+- Application logs
+- Log offsets
+- Alert history
 
 ### Dashboard
-- Live terminal dashboard
-- Historical metrics
-- Latest parsed application logs
+- Live terminal monitoring
+- Current system metrics
+- Historical analytics
+- Latest application logs
+- Latest alerts
 
 ## Technologies
-
 - Python
 - SQLite
 - psutil
 - Git
 - GitHub
 
-## Project Structure
-
-- Metrics Collector
-- Log Collector
-- Log Parser
-- Analytics Layer
-- Database Layer
-- Console Dashboard
-- Utility Module
-
-## Upcoming Features
-
-- Alert Engine
-- Log Filtering
-- Streamlit Dashboard
-- Docker Support
-- AWS Deployment
-- Multi-server Monitoring
-
 ## Current Version
 
-**v0.6**
+**v0.7**

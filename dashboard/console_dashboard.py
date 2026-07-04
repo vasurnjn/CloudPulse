@@ -1,8 +1,8 @@
-def display_metrics(metrics,average_cpu,max_cpu,total_records,min_cpu,average_memory,max_memory,min_memory,average_disk,max_disk,min_disk,latest_logs):
+def display_metrics(metrics,average_cpu,max_cpu,total_records,min_cpu,average_memory,max_memory,min_memory,average_disk,max_disk,min_disk,latest_logs,latest_alerts):
     network=metrics['network_usage']
     memory=metrics['memory_usage']
     print("========================================")
-    print("CloudPulse v0.4")
+    print("CloudPulse v0.7")
     print("========================================")
     print()
     print("System Information")
@@ -16,8 +16,8 @@ def display_metrics(metrics,average_cpu,max_cpu,total_records,min_cpu,average_me
     print(f"Memory Usage:  {memory}%")
     print(f"Disk Usage:    {metrics['disk_usage']}%")
     print()
-    print("Historical Analytics")
-    print("--------------------")
+    print("Analytics")
+    print("---------")
     print(f"Average CPU Usage:  {average_cpu:.2f}%")
     print(f"Maximum CPU Usage:  {max_cpu:.2f}%")
     print(f"Minimum CPU Usage:  {min_cpu:.2f}%")
@@ -49,4 +49,14 @@ def display_metrics(metrics,average_cpu,max_cpu,total_records,min_cpu,average_me
         for log in latest_logs:
             print(f"[{log['level']}] {log['timestamp']}")
             print(f"  {log['message']}")
+            print()
+    print("Latest Alerts")
+    print("-------------")
+    if not latest_alerts:
+        print("No alerts to display.")
+    else:
+        for alert in latest_alerts:
+            print(f"[{alert['timestamp']}]")
+            print(f"[{alert['severity']}] {alert['source']}")
+            print(f"{alert['message']}")
             print()

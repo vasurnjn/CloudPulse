@@ -26,6 +26,14 @@ def init_database():
                 level TEXT,
                 message TEXT)
                 """)
+    cur.execute("""
+                CREATE TABLE IF NOT EXISTS alerts
+                (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp TEXT,
+                severity TEXT,
+                source TEXT,
+                message TEXT)
+                """)
     con.commit()
     con.close()
 def save_metrics(metrics):
@@ -77,6 +85,24 @@ def save_logs(parsed_logs):
     cur.executemany("""
                     INSERT INTO application_logs(timestamp,level,message)
                     VALUES(?,?,?)
+                    """,data
+                    )
+    con.commit()
+    con.close()
+
+def save_alerts(alerts):
+    if not alerts:
+        return
+    con=sqlite3.connect("database/cloudpulse.db")
+    cur=con.cursor()
+    data=[]
+    for alert in alerts:
+        data.append((
+            alert["timestamp"],alert["severity"],alert["source"],alert["message"]
+        ))
+    cur.executemany("""
+                    INSERT INTO alerts(timestamp,severity,source,message)
+                    VALUES(?,?,?,?)
                     """,data
                     )
     con.commit()

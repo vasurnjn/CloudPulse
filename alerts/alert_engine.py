@@ -1,6 +1,8 @@
-CPU_THRESHOLD=90
-MEMORY_THRESHOLD=90
-DISK_THRESHOLD=90
+from config.settings import (
+    CPU_THRESHOLD,
+    MEMORY_THRESHOLD,
+    DISK_THRESHOLD
+)
 
 def check_alerts(metrics,latest_logs):
     alerts=[]

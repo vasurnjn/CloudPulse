@@ -1,8 +1,14 @@
-def display_metrics(metrics,average_cpu,max_cpu,total_records,min_cpu,average_memory,max_memory,min_memory,average_disk,max_disk,min_disk,latest_logs,latest_alerts):
+
+def display_metrics(
+    metrics,
+    analytics_summary,
+    latest_logs,
+    latest_alerts
+):
     network=metrics['network_usage']
     memory=metrics['memory_usage']
     print("========================================")
-    print("CloudPulse v0.7")
+    print("CloudPulse v0.8")
     print("========================================")
     print()
     print("System Information")
@@ -18,19 +24,19 @@ def display_metrics(metrics,average_cpu,max_cpu,total_records,min_cpu,average_me
     print()
     print("Analytics")
     print("---------")
-    print(f"Average CPU Usage:  {average_cpu:.2f}%")
-    print(f"Maximum CPU Usage:  {max_cpu:.2f}%")
-    print(f"Minimum CPU Usage:  {min_cpu:.2f}%")
+    print(f"Average CPU Usage:  {analytics_summary['cpu']['average']:.2f}%")
+    print(f"Maximum CPU Usage:  {analytics_summary['cpu']['maximum']:.2f}%")
+    print(f"Minimum CPU Usage:  {analytics_summary['cpu']['minimum']:.2f}%")
     print()
-    print(f"Average Memory Usage:  {average_memory:.2f}%")
-    print(f"Maximum Memory Usage:  {max_memory:.2f}%")
-    print(f"Minimum Memory Usage:  {min_memory:.2f}%")
+    print(f"Average Memory Usage:  {analytics_summary['memory']['average']:.2f}%")
+    print(f"Maximum Memory Usage:  {analytics_summary['memory']['maximum']:.2f}%")
+    print(f"Minimum Memory Usage:  {analytics_summary['memory']['minimum']:.2f}%")
     print()
-    print(f"Average Disk Usage: {average_disk:.2f}%")
-    print(f"Maximum Disk Usage: {max_disk:.2f}%")
-    print(f"Minimum Disk Usage: {min_disk:.2f}%")
+    print(f"Average Disk Usage: {analytics_summary['disk']['average']:.2f}%")
+    print(f"Maximum Disk Usage: {analytics_summary['disk']['maximum']:.2f}%")
+    print(f"Minimum Disk Usage: {analytics_summary['disk']['minimum']:.2f}%")
     print()
-    print(f"Total Records Collected: {total_records}")
+    print(f"Total Records Collected: {analytics_summary['total_records']}")
     print()
     print("Network")
     print("-------")
@@ -48,7 +54,7 @@ def display_metrics(metrics,average_cpu,max_cpu,total_records,min_cpu,average_me
     else:
         for log in latest_logs:
             print(f"[{log['level']}] {log['timestamp']}")
-            print(f"  {log['message']}")
+            print(f"{log['message']}")
             print()
     print("Latest Alerts")
     print("-------------")

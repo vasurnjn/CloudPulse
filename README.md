@@ -12,15 +12,9 @@ CloudPulse is a Python-based cloud infrastructure monitoring and log analytics p
 - Hostname and timestamp collection
 
 ### Historical Analytics
-- Average CPU usage
-- Maximum CPU usage
-- Minimum CPU usage
-- Average Memory usage
-- Maximum Memory usage
-- Minimum Memory usage
-- Average Disk usage
-- Maximum Disk usage
-- Minimum Disk usage
+- Average, Maximum, and Minimum CPU usage
+- Average, Maximum, and Minimum Memory usage
+- Average, Maximum, and Minimum Disk usage
 - Total records collected
 
 ### Log Collection
@@ -31,16 +25,20 @@ CloudPulse is a Python-based cloud infrastructure monitoring and log analytics p
 
 ### Log Parsing
 - Parses raw log lines into structured dictionaries
-- Extracts timestamp
-- Extracts log level
-- Extracts log message
+- Extracts timestamp, log level, and message
 
 ### Alert Engine
-- CPU usage threshold alerts
-- Memory usage threshold alerts
-- Disk usage threshold alerts
+- CPU threshold alerts
+- Memory threshold alerts
+- Disk threshold alerts
 - ERROR log detection
 - Alert history stored in SQLite
+
+### Configuration
+- Centralized project settings
+- Configurable polling interval
+- Configurable alert thresholds
+- Configurable dashboard history limits
 
 ### Database
 - System metrics
@@ -56,6 +54,7 @@ CloudPulse is a Python-based cloud infrastructure monitoring and log analytics p
 - Latest alerts
 
 ## Technologies
+
 - Python
 - SQLite
 - psutil
@@ -64,4 +63,4 @@ CloudPulse is a Python-based cloud infrastructure monitoring and log analytics p
 
 ## Current Version
 
-**v0.7**
+**v0.8**

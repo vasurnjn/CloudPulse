@@ -8,7 +8,7 @@ def display_metrics(
     network=metrics['network_usage']
     memory=metrics['memory_usage']
     print("========================================")
-    print("CloudPulse v0.8")
+    print("CloudPulse v1.0.0")
     print("========================================")
     print()
     print("System Information")

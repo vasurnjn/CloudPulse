@@ -1,0 +1,17 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.git
+.gitignore
+
+database/cloudpulse.db
+
+docs/
+
+.vscode/
+.idea/
+
+*.log

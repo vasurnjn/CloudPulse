@@ -1,4 +1,5 @@
 import psutil
+import os
 from datetime import datetime
 import socket
 def collect_system_metrics():
@@ -7,7 +8,7 @@ def collect_system_metrics():
     metrics={
         "cpu_usage":psutil.cpu_percent(interval=1),
         "memory_usage":memory.percent,
-        "disk_usage":psutil.disk_usage('C:\\').percent,
+        "disk_usage": psutil.disk_usage(os.path.abspath(os.sep)).percent,
         "network_usage": {
             "bytes_sent": network.bytes_sent,
             "bytes_recv": network.bytes_recv

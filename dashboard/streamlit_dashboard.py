@@ -49,7 +49,7 @@ age=(current_time-last_update).total_seconds()
 if age <= COLLECTION_INTERVAL*2:
     st.success(
         f"🟢 CloudPulse Status: Monitoring Active\n\n"
-        f"Last Updated: {latest_metrics['timestamp']}"
+        f"Last Updated (UTC): {latest_metrics['timestamp']}"
     )
 else:
     st.warning(
@@ -61,7 +61,7 @@ total_records=get_total_records()
 
 st.sidebar.title("☁️ CloudPulse")
 st.sidebar.markdown("### Dashboard Info")
-st.sidebar.write("**Version:** v0.9")
+st.sidebar.write("**Version:** v1.0.0")
 status = "🟢 Active" if age <= COLLECTION_INTERVAL * 2 else "🔴 Inactive"
 st.sidebar.write(f"**Status:** {status}")
 st.sidebar.write(f"**Refresh Interval:** {COLLECTION_INTERVAL} sec")
@@ -176,6 +176,6 @@ else:
             st.write(alert['message'])
 st.divider()
 st.caption(
-    "☁️ CloudPulse v0.9 | Built with Python, SQLite, Streamlit & ❤️\n\n"
+    "☁️ CloudPulse v1.0.0 | Built with Python, SQLite, Streamlit & ❤️\n\n"
     "Developed by Vasu Ranjan"
 )

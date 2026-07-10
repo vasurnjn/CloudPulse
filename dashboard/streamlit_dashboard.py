@@ -7,6 +7,7 @@ if PROJECT_ROOT not in sys.path:
 import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 from analytics.metrics_analyzer import(
+    get_all_hosts,
     get_latest_metrics,
     get_total_records,
     get_average_cpu,
@@ -33,17 +34,37 @@ st.set_page_config(
     layout="wide"
 )
 st_autorefresh(interval=10000,key="cloudpulse_refresh")
+st.sidebar.title("☁️ CloudPulse")
+hosts = ["All"] + get_all_hosts()
+selected_host = st.sidebar.selectbox(
+    "Select Host",
+    hosts
+)
 st.title("☁️ CloudPulse")
 st.subheader("Cloud Infrastructure Monitoring Platform")
 st.caption("Real-time Infrastructure Monitoring Dashboard")
 st.divider() 
 st.subheader("Current Metrics")
-latest_metrics=get_latest_metrics()
+st.caption(f"🖥️ Monitoring: {selected_host}")
+latest_metrics=get_latest_metrics(selected_host)
 if latest_metrics is None:
     st.warning("No metrics available. Start CloudPulse (main.py) first.")
     st.stop()
-history=get_metrics_history(HISTORY_LIMIT)
-last_update=datetime.strptime(latest_metrics["timestamp"], "%Y-%m-%d %H:%M:%S")
+history=get_metrics_history(HISTORY_LIMIT,selected_host)
+try:
+    last_update = datetime.fromisoformat(latest_metrics["timestamp"])
+    last_update = last_update.replace(tzinfo=None)
+except Exception:
+    try:
+        last_update = datetime.strptime(
+            latest_metrics["timestamp"],
+            "%Y-%m-%d %H:%M:%S"
+        )
+    except Exception:
+        st.warning(
+            "Selected host contains invalid or test data."
+        )
+        st.stop()
 current_time=datetime.now()
 age=(current_time-last_update).total_seconds()
 if age <= COLLECTION_INTERVAL*2:
@@ -59,7 +80,6 @@ else:
     )
 total_records=get_total_records()
 
-st.sidebar.title("☁️ CloudPulse")
 st.sidebar.markdown("### Dashboard Info")
 st.sidebar.write("**Version:** v1.0.0")
 status = "🟢 Active" if age <= COLLECTION_INTERVAL * 2 else "🔴 Inactive"
@@ -72,17 +92,17 @@ st.sidebar.divider()
 st.sidebar.markdown("### Last Update")
 st.sidebar.write(latest_metrics["timestamp"])
 
-average_cpu=get_average_cpu()
-average_memory=get_average_memory()
-average_disk=get_average_disk()
+average_cpu=get_average_cpu(selected_host)
+average_memory=get_average_memory(selected_host)
+average_disk=get_average_disk(selected_host)
 
-max_cpu=get_max_cpu()
-max_memory=get_max_memory()
-max_disk=get_max_disk()
+max_cpu=get_max_cpu(selected_host)
+max_memory=get_max_memory(selected_host)
+max_disk=get_max_disk(selected_host)
 
-min_cpu=get_min_cpu()
-min_memory=get_min_memory()
-min_disk=get_min_disk()
+min_cpu=get_min_cpu(selected_host)
+min_memory=get_min_memory(selected_host)
+min_disk=get_min_disk(selected_host)
 col1,col2,col3,col4=st.columns(4)
 with col1:
     st.metric(

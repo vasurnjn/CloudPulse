@@ -4,3 +4,4 @@ SERVER_PORT = 8000
 SEND_INTERVAL = 10
 API_URL = f"http://{SERVER_IP}:{SERVER_PORT}/metrics"
 LOG_API_URL = f"http://{SERVER_IP}:{SERVER_PORT}/logs"
+LOG_FILE = "sample_app/app.log"

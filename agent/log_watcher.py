@@ -1,13 +1,9 @@
 import time
 import requests
-
 from config import LOG_API_URL
-
-LOG_FILE = "logs/agent_test.log"
-
+from config import LOG_FILE
 
 def send_log(line):
-
     payload = {
         "logs": [
             {
@@ -15,7 +11,6 @@ def send_log(line):
             }
         ]
     }
-
     try:
 
         response = requests.post(
@@ -23,40 +18,24 @@ def send_log(line):
             json=payload,
             timeout=5
         )
-
         print(
             f"Sent Log | Status {response.status_code}"
         )
-
     except requests.exceptions.RequestException as e:
-
         print(e)
-
-
-def watch_logs():
-
+def start_log_watcher():
     with open(LOG_FILE, "a"):
         pass
-
     with open(LOG_FILE, "r") as file:
-
         file.seek(0, 2)
-
         print(f"Watching {LOG_FILE}")
-
         while True:
-
             line = file.readline()
-
             if not line:
-
                 time.sleep(0.5)
-
                 continue
-
             send_log(line)
-
 
 if __name__ == "__main__":
 
-    watch_logs()
+    start_log_watcher()

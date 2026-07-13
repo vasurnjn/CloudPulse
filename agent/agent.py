@@ -1,11 +1,13 @@
+import threading
+import time
 import os
 import socket
-import time
 from datetime import datetime, UTC
 import psutil
 import requests
 from config import API_URL
 from config import SEND_INTERVAL
+from log_watcher import start_log_watcher
 
 def collect_metrics():
     network = psutil.net_io_counters()
@@ -25,28 +27,39 @@ def collect_metrics():
 def send_metrics():
     data = collect_metrics()
     try:
-        response = requests.post(API_URL, json=data, timeout=5)
+        response = requests.post(
+            API_URL,
+            json=data,
+            timeout=5
+        )
         print(
-            f"[{datetime.now().strftime('%H:%M:%S')}] "
-            f"Sent | Status {response.status_code}"
+            f"[Metrics] {response.status_code}"
         )
     except requests.exceptions.RequestException as e:
-        print(
-            f"[{datetime.now().strftime('%H:%M:%S')}] "
-            f"Connection Failed : {e}"
-        )
+        print(e)
 
-def start_agent():
-    print()
-    print("=" * 45)
-    print("CloudPulse Agent Started")
-    print("=" * 45)
-    print(f"Server : {API_URL}")
-    print(f"Interval : {SEND_INTERVAL} seconds")
-    print()
+def metrics_loop():
     while True:
         send_metrics()
         time.sleep(SEND_INTERVAL)
+
+def start_agent():
+    print("=" * 50)
+    print("CloudPulse Agent")
+    print("=" * 50)
+    metrics_thread = threading.Thread(
+        target=metrics_loop,
+        daemon=True
+    )
+    log_thread = threading.Thread(
+        target=start_log_watcher,
+        daemon=True
+    )
+    metrics_thread.start()
+    log_thread.start()
+
+    metrics_thread.join()
+    log_thread.join()
 
 if __name__ == "__main__":
     start_agent()

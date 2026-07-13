@@ -11,3 +11,8 @@ class MetricsData(BaseModel):
     network_usage: NetworkUsage
     timestamp: str
     hostname: str
+from typing import List
+class LogData(BaseModel):
+    message: str
+class LogBatch(BaseModel):
+    logs: List[LogData]

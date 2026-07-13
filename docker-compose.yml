@@ -1,5 +1,15 @@
 services:
 
+  api:
+    image: cloudpulse:api-v2.0
+    build: .
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
   collector:
     image: cloudpulse:collector-v1.0
     build: .
@@ -17,5 +27,3 @@ services:
       - "8501:8501"
     volumes:
       - .:/app
-    depends_on:
-      - collector

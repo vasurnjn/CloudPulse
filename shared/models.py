@@ -15,4 +15,5 @@ from typing import List
 class LogData(BaseModel):
     message: str
 class LogBatch(BaseModel):
+    hostname: str
     logs: List[LogData]

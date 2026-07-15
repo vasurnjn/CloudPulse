@@ -45,8 +45,8 @@ st.title("☁️ CloudPulse")
 st.subheader("Cloud Infrastructure Monitoring Platform")
 st.caption("Real-time Infrastructure Monitoring Dashboard")
 st.divider() 
-@st.fragment(run_every=f"{COLLECTION_INTERVAL}s")
 
+@st.fragment(run_every=f"{COLLECTION_INTERVAL}s")
 def live_current_metrics():
     live_metrics = get_latest_metrics(selected_host)
 
@@ -113,40 +113,54 @@ def live_current_metrics():
     )
 
 live_current_metrics()
-latest_metrics=get_latest_metrics(selected_host)
-if latest_metrics is None:
-    st.warning("No metrics available. Start CloudPulse (main.py) first.")
-    st.stop()
-try:
-    last_update = datetime.fromisoformat(latest_metrics["timestamp"])
-    last_update = last_update.replace(tzinfo=None)
-except Exception:
+@st.fragment(run_every=f"{COLLECTION_INTERVAL}s")
+def live_sidebar():
+    sidebar_metrics = get_latest_metrics(selected_host)
+
+    if sidebar_metrics is None:
+        st.write("**Status:** 🔴 Inactive")
+        return
+
     try:
-        last_update = datetime.strptime(
-            latest_metrics["timestamp"],
-            "%Y-%m-%d %H:%M:%S"
-        )
+        sidebar_last_update = datetime.fromisoformat(
+            sidebar_metrics["timestamp"]
+        ).replace(tzinfo=None)
     except Exception:
-        st.warning(
-            "Selected host contains invalid or test data."
-        )
-        st.stop()
-current_time=datetime.now()
-age=(current_time-last_update).total_seconds()
+        try:
+            sidebar_last_update = datetime.strptime(
+                sidebar_metrics["timestamp"],
+                "%Y-%m-%d %H:%M:%S"
+            )
+        except Exception:
+            return
 
-total_records=get_total_records(selected_host)
+    sidebar_age = (
+        datetime.now() - sidebar_last_update
+    ).total_seconds()
 
-st.sidebar.markdown("### Dashboard Info")
-st.sidebar.write("**Version:** v2.0.0")
-status = "🟢 Active" if age <= COLLECTION_INTERVAL * 2 else "🔴 Inactive"
-st.sidebar.write(f"**Status:** {status}")
-st.sidebar.write(f"**Refresh Interval:** {COLLECTION_INTERVAL} sec")
-st.sidebar.divider()
-st.sidebar.markdown("### Database")
-st.sidebar.write(f"**Records Collected:** {total_records}")
-st.sidebar.divider()
-st.sidebar.markdown("### Last Update")
-st.sidebar.write(latest_metrics["timestamp"])
+    sidebar_status = (
+        "🟢 Active"
+        if sidebar_age <= COLLECTION_INTERVAL * 2
+        else "🔴 Inactive"
+    )
+
+    sidebar_records = get_total_records(selected_host)
+
+    st.markdown("### Dashboard Info")
+    st.write("**Version:** v2.0.0")
+    st.write(f"**Status:** {sidebar_status}")
+    st.write(f"**Refresh Interval:** {COLLECTION_INTERVAL} sec")
+    st.divider()
+
+    st.markdown("### Database")
+    st.write(f"**Records Collected:** {sidebar_records}")
+    st.divider()
+
+    st.markdown("### Last Update")
+    st.write(sidebar_metrics["timestamp"])
+
+with st.sidebar:
+    live_sidebar()
 
 @st.fragment(run_every=f"{COLLECTION_INTERVAL}s")
 def live_analytics():
@@ -229,7 +243,7 @@ def live_logs_and_alerts():
     st.divider()
     st.subheader("Latest Logs")
 
-    latest_logs = get_latest_logs(LATEST_LOG_LIMIT)
+    latest_logs = get_latest_logs(LATEST_LOG_LIMIT,selected_host)
 
     if not latest_logs:
         st.info("No logs available.")
@@ -252,7 +266,7 @@ def live_logs_and_alerts():
     st.divider()
     st.subheader("Latest Alerts")
 
-    latest_alerts = get_latest_alerts(LATEST_ALERT_LIMIT)
+    latest_alerts = get_latest_alerts(LATEST_ALERT_LIMIT,selected_host)
 
     if not latest_alerts:
         st.success("No recent alerts.")

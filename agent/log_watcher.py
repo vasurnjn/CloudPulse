@@ -1,15 +1,17 @@
 import time
 import requests
+import socket
 from config import LOG_API_URL
 from config import LOG_FILE
 
 def send_log(line):
     payload = {
-        "logs": [
-            {
-                "message": line.strip()
-            }
-        ]
+    "hostname": socket.gethostname(),
+    "logs": [
+        {
+            "message": line.strip()
+        }
+    ]
     }
     try:
 

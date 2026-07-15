@@ -23,6 +23,7 @@ def init_database():
                 CREATE TABLE IF NOT EXISTS application_logs
                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
+                hostname TEXT,
                 level TEXT,
                 message TEXT)
                 """)
@@ -30,6 +31,7 @@ def init_database():
                 CREATE TABLE IF NOT EXISTS alerts
                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
+                hostname TEXT,
                 severity TEXT,
                 source TEXT,
                 message TEXT)
@@ -70,7 +72,7 @@ def save_log_offset(filename,offset):
     con.commit()
     con.close()
 
-def save_logs(parsed_logs):
+def save_logs(parsed_logs,hostname):
     if not parsed_logs:
         return
     con=sqlite3.connect("database/cloudpulse.db")
@@ -79,12 +81,12 @@ def save_logs(parsed_logs):
     for log in parsed_logs:
         data.append(
             (
-                log["timestamp"],log["level"],log["message"]
+                log["timestamp"],hostname,log["level"],log["message"]
             )
         )
     cur.executemany("""
-                    INSERT INTO application_logs(timestamp,level,message)
-                    VALUES(?,?,?)
+                    INSERT INTO application_logs(timestamp,hostname,level,message)
+                    VALUES(?,?,?,?)
                     """,data
                     )
     con.commit()
@@ -98,11 +100,11 @@ def save_alerts(alerts):
     data=[]
     for alert in alerts:
         data.append((
-            alert["timestamp"],alert["severity"],alert["source"],alert["message"]
+            alert["timestamp"],alert["hostname"],alert["severity"],alert["source"],alert["message"]
         ))
     cur.executemany("""
-                    INSERT INTO alerts(timestamp,severity,source,message)
-                    VALUES(?,?,?,?)
+                    INSERT INTO alerts(timestamp,hostname,severity,source,message)
+                    VALUES(?,?,?,?,?)
                     """,data
                     )
     con.commit()

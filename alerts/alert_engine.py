@@ -6,19 +6,19 @@ from config.settings import (
 
 def check_alerts(metrics,latest_logs):
     alerts=[]
-    if metrics["cpu_usage"]>CPU_THRESHOLD:
+    if metrics and metrics["cpu_usage"]>CPU_THRESHOLD:
         alerts.append({ "timestamp":metrics["timestamp"],
                         "severity":"HIGH",
                       "source":"CPU",
                       "message":f"CPU usage exceeded {CPU_THRESHOLD}%"
                       })
-    if metrics["memory_usage"]>MEMORY_THRESHOLD:
+    if metrics and metrics["memory_usage"]>MEMORY_THRESHOLD:
         alerts.append({ "timestamp":metrics["timestamp"],
                         "severity":"HIGH",
                       "source":"MEMORY",
                       "message":f"Memory usage exceeded {MEMORY_THRESHOLD}%"
                       })
-    if metrics["disk_usage"]>DISK_THRESHOLD:
+    if metrics and metrics["disk_usage"]>DISK_THRESHOLD:
         alerts.append({ "timestamp":metrics["timestamp"],
                         "severity":"HIGH",
                       "source":"DISK",

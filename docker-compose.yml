@@ -10,16 +10,8 @@ services:
     volumes:
       - .:/app
 
-  collector:
-    image: cloudpulse:collector-v1.0
-    build: .
-    command: python main.py
-    restart: unless-stopped
-    volumes:
-      - .:/app
-
   dashboard:
-    image: cloudpulse:dashboard-v1.0
+    image: cloudpulse:dashboard-v2.0
     build: .
     command: streamlit run dashboard/streamlit_dashboard.py --server.address=0.0.0.0
     restart: unless-stopped
@@ -27,3 +19,5 @@ services:
       - "8501:8501"
     volumes:
       - .:/app
+    depends_on:
+      - api

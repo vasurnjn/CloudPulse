@@ -203,6 +203,16 @@ Historical CPU, Memory, and Disk utilization are visualized using Streamlit char
 
 ---
 
+## 🚨 Logs and Alerts
+
+CloudPulse collects application logs from monitored hosts and automatically generates alerts for ERROR-level logs and infrastructure threshold violations.
+
+Logs and alerts can be filtered by monitored hostname through the dashboard.
+
+![Logs and Alerts](docs/screenshots/logs-alerts.png)
+
+---
+
 # 📦 Installation
 
 Clone the repository:
